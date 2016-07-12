@@ -12,9 +12,16 @@ namespace PotterShoppingCart
 
         }
 
-        public object CalculatePrice(List<Order> orders)
+        public double CalculatePrice(List<Order> orders)
         {
-            throw new NotImplementedException();
+            double SumPrice = 0;
+
+            foreach (var item in orders)
+            {
+                SumPrice += item.Price * item.Qty;
+            }
+
+            return SumPrice;
         }
     }
 

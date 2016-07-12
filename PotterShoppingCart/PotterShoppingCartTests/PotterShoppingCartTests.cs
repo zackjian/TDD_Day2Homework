@@ -23,7 +23,7 @@ namespace PotterShoppingCart.Tests
             };
 
             //act
-            var actual = target.CalculatePrice(orders);
+            double actual = target.CalculatePrice(orders);
 
             //assert
             var expected = 100;
