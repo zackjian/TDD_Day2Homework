@@ -153,5 +153,28 @@ namespace PotterShoppingCart.Tests
         }
 
 
+        [TestMethod()]
+        public void Test_Fisrt_Episode_Buy_1_Second_Episode_Buy_2_Third_Episode_Buy_2_Price_Should_Be_100_Multiply_3_Multiply_Dot9_SUM_100_Multiply_2_Multiply_Dot95_Equal_460()
+        {
+            var potterEpisode = new PotterEpisode();
+
+            //arrange
+            var target = new PotterShoppingCart();
+            var orders = new List<Order>
+            {
+                new Order { Name= potterEpisode.Episode1, Price=100, Qty=1 },
+                new Order { Name= potterEpisode.Episode2, Price=100, Qty=2 },
+                new Order { Name= potterEpisode.Episode3, Price=100, Qty=2 }
+            };
+
+            //act 
+            double actual = target.CalculatePrice(orders);
+
+            //assert
+            var expected = 460;
+
+            Assert.AreEqual(expected, actual);
+        }
+
     }
 }
