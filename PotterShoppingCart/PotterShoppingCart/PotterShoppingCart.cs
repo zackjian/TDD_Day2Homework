@@ -15,37 +15,53 @@ namespace PotterShoppingCart
         public double CalculatePrice(List<Order> orders)
         {
             double SumPrice = 0;
+            var _orders = orders;
 
-            var group = orders.GroupBy(s => new { s.Name, s.Price })
+            while ((_orders.Where(s => s.Qty > 0).Count() > 0 ? true : false))
+            {
+                double groupPrice = 0;
+
+                var group = orders.GroupBy(s => new { s.Name, s.Price, s.Qty })
                 .Select(s => new
                 {
                     Name = s.Key.Name,
                     Price = s.Key.Price,
-                    Qty = s.Count()
-                }).ToList();
+                    Qty = s.Sum(b => b.Qty)
+                }).Where(s => s.Qty > 0).ToList();
 
-            foreach (var item in group)
-            {
-                SumPrice += item.Price * item.Qty;
+                foreach (var item in group)
+                {
+                    groupPrice += item.Price * 1;
+                }
+
+                switch (group.Count)
+                {
+                    case 1:                        
+                        break;
+                    case 2:
+                        groupPrice *= 0.95;
+                        break;
+                    case 3:
+                        groupPrice *= 0.9;
+                        break;
+                    case 4:
+                        groupPrice *= 0.8;
+                        break;
+                    case 5:
+                        groupPrice *= 0.75;
+                        break;
+                }
+
+                //將計算過的扣掉
+                foreach (var order in orders)
+                {
+                    order.Qty = order.Qty - 1;
+                }
+
+                SumPrice += groupPrice;
             }
 
-            switch (group.Count)
-            {
-                case 1:
-                    break;
-                case 2:
-                    SumPrice *= 0.95;
-                    break;
-                case 3:
-                    SumPrice *= 0.9;
-                    break;
-                case 4:
-                    SumPrice *= 0.8;
-                    break;
-                case 5:
-                    SumPrice *= 0.75;
-                    break;
-            }
+            
             return SumPrice;
         }
     }
