@@ -39,6 +39,9 @@ namespace PotterShoppingCart
                 case 3:
                     SumPrice *= 0.9;
                     break;
+                case 4:
+                    SumPrice *= 0.8;
+                    break;
             }
             return SumPrice;
         }
