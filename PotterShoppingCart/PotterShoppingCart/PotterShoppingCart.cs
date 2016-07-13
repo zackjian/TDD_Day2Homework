@@ -24,23 +24,22 @@ namespace PotterShoppingCart
                     Qty = s.Count()
                 }).ToList();
 
-            
-            switch(group.Count)
+            foreach (var item in group)
             {
-                case 1:
-                    foreach(var item in group)
-                    {
-                        SumPrice += item.Price * item.Qty;
-                    }
-                    break;
-                case 2:
-                    foreach(var item in group)
-                    {
-                        SumPrice += item.Price * item.Qty * 0.95;
-                    }
-                    break;
+                SumPrice += item.Price * item.Qty;
             }
 
+            switch (group.Count)
+            {
+                case 1:
+                    break;
+                case 2:
+                    SumPrice *= 0.95;
+                    break;
+                case 3:
+                    SumPrice *= 0.9;
+                    break;
+            }
             return SumPrice;
         }
     }
